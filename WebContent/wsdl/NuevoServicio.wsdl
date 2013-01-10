@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://Servicios" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://Servicios" xmlns:intf="http://Servicios" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://Servicios" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="DecirHola">
+    <complexType>
+     <sequence>
+      <element name="Nombre" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="DecirHolaResponse">
+    <complexType>
+     <sequence>
+      <element name="DecirHolaReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="DecirHolaRequest">
+
+      <wsdl:part element="impl:DecirHola" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="DecirHolaResponse">
+
+      <wsdl:part element="impl:DecirHolaResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="NuevoServicio">
+
+      <wsdl:operation name="DecirHola">
+
+         <wsdl:input message="impl:DecirHolaRequest" name="DecirHolaRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:DecirHolaResponse" name="DecirHolaResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="NuevoServicioSoapBinding" type="impl:NuevoServicio">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="DecirHola">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="DecirHolaRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="DecirHolaResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="NuevoServicioService">
+
+      <wsdl:port binding="impl:NuevoServicioSoapBinding" name="NuevoServicio">
+
+         <wsdlsoap:address location="http://localhost:6160/WebService/services/NuevoServicio"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
