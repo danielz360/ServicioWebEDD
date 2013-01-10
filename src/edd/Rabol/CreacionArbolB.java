@@ -1,5 +1,6 @@
 package edd.Rabol;
 import edd.Estructuras.Nodo_Detalle;
+import edd.Estructuras.NodoUsuario;
 public class CreacionArbolB {
 
     private Nodo mRaiz = null;
@@ -38,7 +39,7 @@ public class CreacionArbolB {
 
     }
 
-    public void insert(busqueda key, Object obj,Object user,Nodo_Detalle detalle) {
+    public void insert(busqueda key, Object obj,NodoUsuario user,Nodo_Detalle detalle) {
 
         if (this.mAltura == 0) {
             //System.out.println("entro 1");
@@ -59,7 +60,7 @@ public class CreacionArbolB {
 
     }
 
-    protected identificar insert(Nodo node, busqueda key, Object obj,Object user,Nodo_Detalle detalle, int level) {
+    protected identificar insert(Nodo node, busqueda key, Object obj,NodoUsuario user,Nodo_Detalle detalle, int level) {
         identificar splitted = null;
         Nodo ptr = null;
         int i = 0;
@@ -79,7 +80,7 @@ public class CreacionArbolB {
             } else {
                 key = splitted.mLlave;
                 obj = splitted.mDato;
-                user = splitted.puser;
+                user = (NodoUsuario) splitted.puser;
                 detalle = splitted.pdetalle;
                 ptr = splitted.mPuntero;
             }

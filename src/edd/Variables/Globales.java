@@ -238,7 +238,7 @@ public class Globales
 				}
 				
     			NodoProducto producto = this.Productos.ObtBuscar(Integer.parseInt(VCodigoProductos[a]));
-   				Resultado = producto.ObtCodigo() + "," + producto.ObtNombre() + "," + producto.ObtMarca() + "," + producto.ObtPrecio() + "," + producto.ObtUrlImagen() + "-";
+   				Resultado = producto.ObtCodigo() + "," + producto.ObtNombre() + "," + producto.ObtMarca() + "," + producto.ObtPrecio() + "," + producto.ObtUrlImagen() + ":";
     		}
     		Resultado = Resultado.substring(0, Resultado.length()-1);
     		return Resultado;

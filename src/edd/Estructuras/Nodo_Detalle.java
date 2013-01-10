@@ -13,7 +13,7 @@ public class Nodo_Detalle {
     Cola_Carrito compras;
     
     
-    public Nodo_Detalle( int idd, int cantt, int precioo,Cola_Carrito compras1){
+    public Nodo_Detalle( int idd, int cantt, int precioo, Cola_Carrito compras1){
     id = idd;
     cantidad = cantt;
     precio = precioo;
@@ -21,8 +21,8 @@ public class Nodo_Detalle {
     compras.idendetalle(idd); 
     }  
     public void ingresoProd(int cantidad, NodoProducto pProducto){
-        compras.ingresar(cantidad,pProducto);
-    }
+        compras.ingresar(cantidad, pProducto);
+    } 
     
     public void imprimirconsola(){
         compras.imprimir();

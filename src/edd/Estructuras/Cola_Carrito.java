@@ -19,6 +19,7 @@ public class Cola_Carrito {
     private static Logger log = Logger.getLogger(Cola_Carrito.class); // se intancia un logger de la clase donde esta el metodo.
     Nodo_ColaCarrito cabeza;
     Nodo_ColaCarrito ultimoo;
+    NodoProducto k;
     int tamaño;
     graphviz gv;
     int iteracion=0;
@@ -30,6 +31,15 @@ public class Cola_Carrito {
         ultimoo=null;
         tamaño = 0;
     }// termina constructor
+    
+    
+    public void productoHash(int detalle1){
+    	
+    	String df = k.ObtNombre();
+    	
+    }
+    
+    
     
     public void idendetalle(int detalle1){
         System.out.println("se agrego detalle "+detalle);

@@ -61,9 +61,9 @@ public class Cola_Detalle {
  
  
 //---------------Metodo Ingresar -------------------------------------------------     
-  public void ingresar (int idd, int cantt, int precioo,Cola_Carrito compras1)   {
+  public void ingresar (int idd, int cantt, int precioo, NodoProducto compras1)   {
       System.out.println("entro en ingresar cola Detalle");
-      Nodo_Detalle nuevo = new Nodo_Detalle( idd, cantt, precioo , compras1);
+      Nodo_Detalle nuevo = new Nodo_Detalle( idd, cantt, precioo, compras1);
          if (Vacio()){
              cabeza = nuevo;
              ultimoo = cabeza;
@@ -88,7 +88,7 @@ public class Cola_Detalle {
             }
          }     
   }// termina metodo ingresar cola 
-  
+ 
   public Cola_Carrito obtenerCarrito(int id){
         Nodo_Detalle nodo =  obtenernodo(id);
         return nodo.obtenercarrito();

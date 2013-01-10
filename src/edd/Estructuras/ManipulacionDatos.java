@@ -15,6 +15,8 @@ public class ManipulacionDatos
     private static Logger log = Logger.getLogger(Globales.class); // se intancia un logger de la clase donde esta el metodo.
     private Globales GB;
     private Cifrado Cf;
+    private Cola_Detalle nop;
+    private Cola_Carrito sf;
     
     public ManipulacionDatos() 
 	{
@@ -165,27 +167,29 @@ public class ManipulacionDatos
 				NodoProducto nodo = GB.getProductos().ObtBuscar(Integer.parseInt(Vector[2]));
 				GB.getUsuarios().insertarprodacarrito(Vector[0], Integer.parseInt(Vector[1]),nodo);
 			}
-			/*
+			
+			
+			//Insertar en Detalles de [Facturas] 
+			/*for(int a = 0 ; a < VDetalle.length ; a++)
+			{
+				String [] Vector = VDetalle[a].split(",");
+				Nodo_ColaCarrito nk =Vector[3];
+				NodoProducto nodo = GB.getProductos().ObtBuscar(Integer.parseInt(Vector[2]));
+				Nodo_Detalle nodop = nop.ingresar(Integer.parseInt(Vector[0]), Integer.parseInt(Vector[1]), Integer.parseInt(Vector[2]), Vector[3]);
+				GB.Usuarios.insertarprodacarrito(Vector[1], Integer.parseInt(Vector[2]),nodo);
+			}
+			
 			//Insertar en Ventas [Facturas] 
 			for(int a = 0 ; a < VVenta.length ; a++)
 			{
 				String [] Vector = VVenta[a].split(",");
 				Cola_Detalle  Det = new  Cola_Detalle();
-				NodoUsuario Usr = GB.Usuarios.ObtBuscar(Vector[3]);
+				NodoUsuario Usr = GB.getUsuarios().ObtBuscar(Vector[3]);
+				busqueda Bus = new busqueda();
 				
-				GB.Facturas.insert(Vector[0], Vector[1],Vector[2],Usr , Det);
-				NoVenta, fecha, total, usuario, nododetalle
-				NodoProducto nodo = GB.Productos.ObtBuscar(Integer.parseInt(Vector[2]));
-				GB.Usuarios.insertarprodacarrito(Vector[1], Integer.parseInt(Vector[2]),nodo);
-			}
-			
-			//Insertar en Detalles de [Facturas] 
-			for(int a = 0 ; a < VDetalle.length ; a++)
-			{
-				String [] Vector = VDetalle[a].split(",");
-				GB.Facturas.
-				NodoProducto nodo = GB.Productos.ObtBuscar(Integer.parseInt(Vector[2]));
-				GB.Usuarios.insertarprodacarrito(Vector[1], Integer.parseInt(Vector[2]),nodo);
+				String Obj = Vector[0] +"" + Vector[1] + "" + Integer.parseInt(Vector[2]);
+				
+				GB.getFacturas().insert(Bus, (Object) Obj, (Object)Usr, Det);
 			}*/
 			
 			Breader.close();

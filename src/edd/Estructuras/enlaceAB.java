@@ -23,7 +23,7 @@ public class enlaceAB {
     private String direccionImagen;
     
     
-    public void insertar(String no,String fecha1,String total1,Object user,Nodo_Detalle detalle){
+    public void insertar(String no,String fecha1,String total1,NodoUsuario user,Nodo_Detalle detalle){
         //meter nombre usuario, id detalle 
         int codigoGraficar = Integer.valueOf(no);
         Object user1=user;
