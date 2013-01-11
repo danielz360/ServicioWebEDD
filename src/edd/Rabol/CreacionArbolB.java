@@ -1,6 +1,5 @@
 package edd.Rabol;
-import edd.Estructuras.Nodo_Detalle;
-import edd.Estructuras.NodoUsuario;
+import edd.Estructuras.*;
 public class CreacionArbolB {
 
     private Nodo mRaiz = null;
@@ -39,7 +38,7 @@ public class CreacionArbolB {
 
     }
 
-    public void insert(busqueda key, Object obj,NodoUsuario user,Nodo_Detalle detalle) {
+    public void insert(busqueda key, Object obj,NodoUsuario user,Cola_Detalle detalle) {
 
         if (this.mAltura == 0) {
             //System.out.println("entro 1");
@@ -60,7 +59,7 @@ public class CreacionArbolB {
 
     }
 
-    protected identificar insert(Nodo node, busqueda key, Object obj,NodoUsuario user,Nodo_Detalle detalle, int level) {
+    protected identificar insert(Nodo node, busqueda key, Object obj,NodoUsuario user,Cola_Detalle detalle, int level) {
         identificar splitted = null;
         Nodo ptr = null;
         int i = 0;
@@ -166,7 +165,7 @@ public class CreacionArbolB {
     
     //**********************Mtodo Search especial para Detalle*********************
     
-    public Nodo_Detalle searchDet(busqueda key, Nodo node) {
+    public Cola_Detalle searchDet(busqueda key, Nodo node) {
 
         if ((node == null) || (node.mB < 1)) {
             System.err.println("error");
@@ -183,7 +182,7 @@ public class CreacionArbolB {
             i++;
         }
         if (key.igualA(node.mLlaves[i])) {
-            return (Nodo_Detalle) node.mDatos[i];
+            return (Cola_Detalle) node.aptDetalle[i];
             //return node.No;
         }
         return searchDet(key, node.mPunteros[i]);
@@ -198,53 +197,91 @@ public class CreacionArbolB {
     
     
 
-     public Object searchuser(busqueda key) {
+     public String searchuser(busqueda key) {
 
         return searchuser(key, mRaiz);
 
     }
 
-    public Object searchuser(busqueda key, Nodo node) {
+    public String searchuser(busqueda key, Nodo node) {
 
         if ((node == null) || (node.mB < 1)) {
             System.err.println("error");
             return null;
         }
         if (key.menorQue(node.mLlaves[0])) {
-            return search(key, node.mPunteros[0]);
+            return searchuser(key, node.mPunteros[0]);
         }
         if (key.mayorQue(node.mLlaves[node.mB - 1])) {
-            return search(key, node.mPunteros[node.mB]);
+            return searchuser(key, node.mPunteros[node.mB]);
         }
         int i = 0;
         while ((i < node.mB - 1) && (key.mayorQue(node.mLlaves[i]))) {
             i++;
         }
         if (key.igualA(node.mLlaves[i])) {
-            return "usuario: "+node.aptUser[i];
+            return "usuario: "+node.aptUser[i].ObtNickName();
             //return node.No;
         }
-        return search(key, node.mPunteros[i]);
+        return searchuser(key, node.mPunteros[i]);
 
     }
     
-    public Nodo_Detalle searchdetalle(busqueda key) {
+    public int searchNodetalle(busqueda key) {
+
+        return searchNodetalle(key, mRaiz);
+
+    }
+
+    public int searchNodetalle(busqueda key, Nodo node) {
+
+        if ((node == null) || (node.mB < 1)) {
+            System.err.println("error");
+            return 0;
+        }
+        if (key.menorQue(node.mLlaves[0])) {
+            return searchNodetalle(key, node.mPunteros[0]);
+        }
+        if (key.mayorQue(node.mLlaves[node.mB - 1])) {
+            return searchNodetalle(key, node.mPunteros[node.mB]);
+        }
+        int i = 0;
+        while ((i < node.mB - 1) && (key.mayorQue(node.mLlaves[i]))) {
+            i++;
+        }
+        if (key.igualA(node.mLlaves[i])) {
+           // return "detalle: "+ node.aptDetalle[i];
+           // Nodo_Detalle prueba;
+           // prueba= node.aptDetalle[i];
+          //  return prueba;
+            
+            return node.aptDetalle[i].idDetallle();
+          
+            //return node.No;
+        }
+        return searchNodetalle(key, node.mPunteros[i]);
+
+    }
+    
+    public Cola_Detalle searchdetalle(busqueda key) {
 
         return searchdetalle(key, mRaiz);
 
     }
+    
+    
 
-    public Nodo_Detalle searchdetalle(busqueda key, Nodo node) {
+    public Cola_Detalle searchdetalle(busqueda key, Nodo node) {
 
         if ((node == null) || (node.mB < 1)) {
             System.err.println("error");
             return null;
         }
         if (key.menorQue(node.mLlaves[0])) {
-            return searchDet(key, node.mPunteros[0]);
+            return searchdetalle(key, node.mPunteros[0]);
         }
         if (key.mayorQue(node.mLlaves[node.mB - 1])) {
-            return searchDet(key, node.mPunteros[node.mB]);
+            return searchdetalle(key, node.mPunteros[node.mB]);
         }
         int i = 0;
         while ((i < node.mB - 1) && (key.mayorQue(node.mLlaves[i]))) {
@@ -260,7 +297,41 @@ public class CreacionArbolB {
           
             //return node.No;
         }
-        return searchDet(key, node.mPunteros[i]);
+        return searchdetalle(key, node.mPunteros[i]);
+
+    }
+    public void setdetalle(busqueda key,int id,int cantidad,int precio,NodoProducto producto) {
+
+        setdetalle(key, mRaiz, id, cantidad, precio, producto);
+
+    }
+    
+    public void setdetalle(busqueda key, Nodo node,int id, int cantidad,int precio,NodoProducto producto) {
+
+        if ((node == null) || (node.mB < 1)) {
+            System.err.println("error");
+        }
+        if (key.menorQue(node.mLlaves[0])) {
+            searchdetalle(key, node.mPunteros[0]);
+        }
+        if (key.mayorQue(node.mLlaves[node.mB - 1])) {
+            searchdetalle(key, node.mPunteros[node.mB]);
+        }
+        int i = 0;
+        while ((i < node.mB - 1) && (key.mayorQue(node.mLlaves[i]))) {
+            i++;
+        }
+        if (key.igualA(node.mLlaves[i])) {
+           // return "detalle: "+ node.aptDetalle[i];
+           // Nodo_Detalle prueba;
+           // prueba= node.aptDetalle[i];
+          //  return prueba;
+        	
+            node.aptDetalle[i].ingresar(id, cantidad, precio, producto);
+          
+            //return node.No;
+        }
+        searchdetalle(key, node.mPunteros[i]);
 
     }
     

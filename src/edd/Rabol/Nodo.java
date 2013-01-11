@@ -1,6 +1,6 @@
 package edd.Rabol;
 import edd.Estructuras.Cola_Carrito;
-import edd.Estructuras.Nodo_Detalle;
+import edd.Estructuras.*;
         
         
         
@@ -10,8 +10,8 @@ public class Nodo {
     int mB;
     busqueda[] mLlaves;
     Object[] mDatos;
-    Object[] aptUser;
-    Nodo_Detalle[] aptDetalle;
+    NodoUsuario[] aptUser;
+    Cola_Detalle[] aptDetalle;
     Nodo[] mPunteros;
     
     private static int numeroDeNodo = 1;
@@ -31,8 +31,6 @@ public class Nodo {
         b.append("[label=\"<P0>");
         System.out.println(b.toString());
         System.out.println("entroa 1");
-        Cola_Carrito car = aptDetalle[0].obtenercarrito();
-        car.imprimir();
         //bb.append(aptDetalle[0].codsubgrafo());
         //ptros.append(getDotName()).append(":P0").append(" -> ").append(aptDetalle[0].nodo1());
         for (int i = 0; i < mB; i++) {
@@ -43,7 +41,7 @@ public class Nodo {
             b.append("|<P").append(i + 1).append(">");
             
             System.out.println("entro sub");
-            bb.append(aptDetalle[i].codsubgrafo());
+            bb.append(aptDetalle[i].subgraphLista());
             
             System.out.println("entro agrega");
             ptros.append("\n ").append(getDotName()).append(":P").append(i).append(" -> ").append(aptDetalle[i].nodo1()).append(";\n ");
@@ -72,15 +70,15 @@ public class Nodo {
         mB = 0;
         mLlaves = new busqueda[2 * pK + 1];
         mDatos = new Object[2 * pK + 1];
-        aptUser = new Object[(2 * pK) + 1];
-        aptDetalle = new Nodo_Detalle[(2 * pK) + 1];
+        aptUser = new NodoUsuario[(2 * pK) + 1];
+        aptDetalle = new Cola_Detalle[(2 * pK) + 1];
         mPunteros = new Nodo[(2 * pK) + 2];
         System.out.println((2 * pK) + 1);
         System.out.println((2 * pK) + 2);
 
     }
 
-    public Nodo(int pK, busqueda pLlave, Object pDato,Object user,Nodo_Detalle detalle) {
+    public Nodo(int pK, busqueda pLlave, Object pDato,NodoUsuario user,Cola_Detalle detalle) {
 
         this(pK);
         mB = 1;

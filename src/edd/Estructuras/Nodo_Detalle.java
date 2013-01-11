@@ -10,17 +10,16 @@ public class Nodo_Detalle {
     int cantidad;
     int precio;
     int id;
-    Cola_Carrito compras;
+    NodoProducto compras;
     
     
-    public Nodo_Detalle( int idd, int cantt, int precioo, Cola_Carrito compras1){
-    id = idd;
-    cantidad = cantt;
-    precio = precioo;
-    compras =compras1;
-    compras.idendetalle(idd); 
+    public Nodo_Detalle( int idd, int cantt, int precioo, NodoProducto compras1){
+    	id = idd;
+    	cantidad = cantt;
+    	precio = precioo;
+    	compras =compras1;
     }  
-    public void ingresoProd(int cantidad, NodoProducto pProducto){
+    /*public void ingresoProd(int cantidad, NodoProducto pProducto){
         compras.ingresar(cantidad, pProducto);
     } 
     
@@ -40,6 +39,6 @@ public class Nodo_Detalle {
     }
     public String nodo1(){
        return compras.nodo1();
-    }
+    }*/
     
 }//termina clase Nodo_Detalle

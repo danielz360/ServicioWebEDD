@@ -40,12 +40,18 @@ public class Globales
     //Tabla de Productos
 	private TablaHashProducto Productos = new TablaHashProducto();;
     //Arbol B de Facturas
-	private CreacionArbolB Facturas = new CreacionArbolB(OrdenFacturas);    
+	private enlaceAB Facturas;  
+	//Lista de Colas Detalle
+	private ListadeColasDetalle listasDetalle = new ListadeColasDetalle();
 	private ManipulacionDatos Mani;
     private static Logger log = Logger.getLogger(Globales.class); // se intancia un logger de la clase donde esta el metodo.
+    private int YaCargado = 0;
     
     // Private constructor suppresses 
-    private Globales(){ }
+    private Globales()
+    { 
+    	//Facturas = new enlaceAB(OrdenFacturas);
+    }
     
     // Creador sincronizado para protegerse de posibles problemas  multi-hilo
     // otra prueba para evitar instanciación múltiple 
@@ -62,6 +68,27 @@ public class Globales
     {
         if (INSTANCE == null) createInstance();
         return INSTANCE;
+    }
+    
+    public int getYaCargado()
+    {
+    	return YaCargado;
+    }
+    public void SetYaCargado(int pCargado)
+    {
+    	YaCargado = pCargado;
+    }
+    
+    public ListadeColasDetalle ListadeDetalles(){
+    	return listasDetalle;
+    }
+    
+    public void setDetalle(String id,int cantidad,int precio,int producto)
+    {
+    	Facturas.insertardetallealArbol(id, cantidad, precio, producto);
+    }
+    public int getDetalle(int idDetalle){
+    	return listasDetalle.obtener(idDetalle).obtDetalle();
     }
     
     public int getOrdenFacturas()
@@ -100,13 +127,30 @@ public class Globales
     	Productos = pProductos;
     }
     
+    
     public CreacionArbolB getFacturas()
     {
-    	return this.Facturas;
+    	return this.Facturas.ObtArbolB();
     }
-    public void setFacturas(CreacionArbolB pFacturas)
+    public void setFacturas(String no,String fecha1,String total1,String user)
     {
-    	Facturas = pFacturas;
+    	NodoUsuario user1 = Usuarios.ObtBuscar(user);
+    	Facturas.insertar(no, fecha1, total1, user1);
+    }
+    public void graficararbol (){
+    	Facturas.graficarArbol();
+    }
+    
+    public String getinfoItenArbol(String NoFactura){
+    	return Facturas.buscarinfo(NoFactura);
+    }
+    
+    public String getuserItemArbol(String NoFactura){
+    	return Facturas.buscaruser(NoFactura);
+    }
+    
+    public int getdetalleItemArbol(String NoFactura){
+    	return Facturas.buscardetalle(NoFactura);
     }
     
     public ManipulacionDatos getMani()

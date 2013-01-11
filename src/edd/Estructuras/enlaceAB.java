@@ -7,31 +7,65 @@ package edd.Estructuras;
 import java.io.File;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-
 import edd.Rabol.CreacionArbolB;
 import edd.Rabol.Llavedos;
+import edd.Variables.Globales;
 import edd.Variables.var;
-
+/**
+*
+* @author Evelyn
+*/
 
 public class enlaceAB {
     private static Logger log = Logger.getLogger(enlaceAB.class); // se intancia un logger de la clase donde esta el metodo.
-    CreacionArbolB tree3 = new CreacionArbolB(2);
+    CreacionArbolB tree3 ;
     Nodo_Detalle nuevo;
     edd.Rabol.graphviz grafo = new edd.Rabol.graphviz();
     String tempFolder2 = System.getProperty("C:\\Users\\"+var.ruta1+"\\Desktop\\");
     int it=0;
+    Globales GB;
+    
     private String direccionImagen;
     
     
-    public void insertar(String no,String fecha1,String total1,NodoUsuario user,Nodo_Detalle detalle){
+    public enlaceAB(int d){
+    	tree3= new CreacionArbolB(d);
+    	GB = Globales.getInstance();
+    }
+    
+    public CreacionArbolB ObtArbolB(){
+    	return tree3;
+    }
+    
+    
+    public void insertar2(String no,String fecha1,String total1,NodoUsuario user,int detalle){
         //meter nombre usuario, id detalle 
         int codigoGraficar = Integer.valueOf(no);
         Object user1=user;
-        Nodo_Detalle detalle1 = detalle;
+        ListadeColasDetalle lista = GB.ListadeDetalles();
+        Cola_Detalle detalle1 = lista.obtener(detalle).detalle;        
         Nodo_ColaCarrito nuevo = new Nodo_ColaCarrito(2,null);
-        tree3.insert(new Llavedos(codigoGraficar), "Dummy " +it+","+ no+","+fecha1+","+total1,user1,detalle1);
+        tree3.insert(new Llavedos(codigoGraficar), no+","+fecha1+","+total1,user,detalle1);
         it++;
-        log.info("Ingreso Venta en Arbol B" +no+ "" +user1+ "" +detalle1.id+"");
+        log.info("Ingreso Venta en Arbol B" +no+ "" +user1+ "" +detalle1.NoDetalle+"");
+    }
+    
+    public void insertar(String no,String fecha1,String total1,NodoUsuario user){
+        //meter nombre usuario, id detalle 
+        int codigoGraficar = Integer.valueOf(no);
+        Object user1=user;
+        ListadeColasDetalle lista = GB.ListadeDetalles();
+        Cola_Detalle detalle1 = new Cola_Detalle();
+        tree3.insert(new Llavedos(codigoGraficar), no+","+fecha1+","+total1,user,detalle1);
+        it++;
+        log.info("Ingreso Venta en Arbol B" +no+ "" +user1+ "");
+    }
+    
+    public void insertardetallealArbol(String NoFactura,int cantidad,int precio,int producto)
+    {
+        int codigo = Integer.valueOf(NoFactura);
+        NodoProducto nprod = GB.getProductos().ObtBuscar(producto);
+    	tree3.setdetalle(new Llavedos(codigo), codigo,cantidad, precio, nprod);
     }
     
     static void doDot(String pInput, String pOutput) {
@@ -110,28 +144,38 @@ public class enlaceAB {
 
     }
     
-    public void buscar (String No){
+    public String buscarinfo (String No){
         int codigo = Integer.valueOf(No);
+        String datos = String.valueOf(tree3.search(new Llavedos(codigo)));
+        
         System.out.println(tree3.search(new Llavedos(codigo)));
+        return datos;
         
     }
-    public void buscaruser (String No){
+    public String buscaruser (String No){
         int codigo = Integer.valueOf(No);
+        String user =tree3.searchuser(new Llavedos(codigo));
         System.out.println(tree3.searchuser(new Llavedos(codigo)));
+        return user;
         
     }
-    public void buscardetalle (String No){
+    public int buscardetalle (String No){
         int codigo = Integer.valueOf(No);
        // System.out.println(tree3.searchdetalle(new Llavedos(codigo)));
-    nuevo =  tree3.searchdetalle(new Llavedos(codigo)) ;
-        int datos = nuevo.id;
+        int datos =  tree3.searchNodetalle(new Llavedos(codigo)) ;
         System.out.println("El Id del Detalle es:" +datos);
+        return datos;
         
         
         /*nodo_detalle nuevo;
 nuevo = tree3.searchdetalle(new Llavedos(codigo));
 luego si lo qures rebiri en un string 
 String datos = nuevo.info;*/
+    }
+    
+    public Cola_Detalle buscarColaDetalle(String No){
+    	int codigo = Integer.valueOf(No);
+    	return  tree3.searchdetalle(new Llavedos(codigo)) ;
     }
 
    /* void insertar(String dat1, String dat2, String dat3, String dat4, String dat5) {

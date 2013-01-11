@@ -1,14 +1,14 @@
 package edd.Rabol;
-import edd.Estructuras.Nodo_Detalle;
+import edd.Estructuras.*;
 class identificar {
 
     Nodo mPuntero;
     busqueda mLlave;
     Object mDato;
-    Object puser;
-    Nodo_Detalle pdetalle;
+    NodoUsuario puser;
+    Cola_Detalle pdetalle;
 
-    public identificar(Nodo pPuntero, busqueda pLlave, Object pDato,Object ppUser, Nodo_Detalle ppDetalle) {//agarra los objetos los guarda, hac el equilibrio y los jala 
+    public identificar(Nodo pPuntero, busqueda pLlave, Object pDato,NodoUsuario ppUser, Cola_Detalle ppDetalle) {//agarra los objetos los guarda, hac el equilibrio y los jala 
 
         this.mPuntero = pPuntero;
         this.mLlave = pLlave;
@@ -53,24 +53,24 @@ class identificar {
         return mDato;
 
     }
-    public void setuser(Object muser) {
+    public void setuser(NodoUsuario muser) {
 
         this.puser = muser;
 
     }
 
-    public Object getuser() {
+    public NodoUsuario getuser() {
 
         return puser;
 
     }
-    public void setdetalle(Nodo_Detalle mDetalle) {
+    public void setdetalle(Cola_Detalle mDetalle) {
 
         this.pdetalle = mDetalle;
 
     }
 
-    public Nodo_Detalle getdetalle() {
+    public Cola_Detalle getdetalle() {
 
         return pdetalle;
 

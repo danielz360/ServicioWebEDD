@@ -8,8 +8,9 @@ public class Cifrado
 	private String [][] TablaCodigos;
 	private int [][] MatrizqOrtogonal;
 	private int [][] MatrizqOrtogonalInversa;
-	private int FilasC = 70;
+	private int FilasC = 71;
 	private int ColumnasC = 2;
+	private String Grafico = "";
 	
 	private int DivisorDato = 2; 
 	
@@ -51,7 +52,7 @@ public class Cifrado
 			
 			if((contador + divisor) <= (Dato.length() ))
 			{
-				Resultado += Dato.substring(contador, contador + divisor) + "-";
+				Resultado += Dato.substring(contador, contador + divisor) + "_";
 				
 				if((divisor + contador) == (Dato.length()))
 				{
@@ -68,7 +69,7 @@ public class Cifrado
 			Resultado += "\\";
 		}
 		
-		String [] Parejas = Resultado.split("-");
+		String [] Parejas = Resultado.split("_");
 		
 		String Retornar = "";
 		
@@ -261,7 +262,7 @@ public class Cifrado
 		TablaCodigos[41][1] = " ";
 		
 		TablaCodigos[42][0] = "43";
-		TablaCodigos[42][1] = "\\";
+		TablaCodigos[42][1] = "\\";		
 		
 		TablaCodigos[43][0] = "-27";
 		TablaCodigos[43][1] = "a";
@@ -343,12 +344,15 @@ public class Cifrado
 		
 		TablaCodigos[69][0] = "-1";
 		TablaCodigos[69][1] = "z";
+		
+		TablaCodigos[70][0] = "44";
+		TablaCodigos[70][1] = "-";
 	}
 	
-	public static void main(String[] args) 
+	/**public static void main(String[] args) 
 	{
 		Cifrado c = new Cifrado();
-		String Original = "Quedamos en el Altozano a las Nueve Exelente MIJO";
+		String Original = "Quedamos en el Altozano a las----adsfasdfl ;lkjha;ldfadfakdsfhakdsfjhalkdsfh Nueve Exelente MIJO";
 		System.out.println("or - " + Original);
 		String Encriptado = c.Encriptar(Original);
 		System.out.println("en - " + Encriptado);
@@ -359,6 +363,6 @@ public class Cifrado
 			DesEncriptado = DesEncriptado.substring(0, DesEncriptado.length()-1);
 		}
 		System.out.println("des - " + DesEncriptado);		
-	}
+	}*/
 	
 }

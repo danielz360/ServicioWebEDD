@@ -169,27 +169,23 @@ public class ManipulacionDatos
 			}
 			
 			
-			//Insertar en Detalles de [Facturas] 
-			/*for(int a = 0 ; a < VDetalle.length ; a++)
-			{
-				String [] Vector = VDetalle[a].split(",");
-				Nodo_ColaCarrito nk =Vector[3];
-				NodoProducto nodo = GB.getProductos().ObtBuscar(Integer.parseInt(Vector[2]));
-				Nodo_Detalle nodop = nop.ingresar(Integer.parseInt(Vector[0]), Integer.parseInt(Vector[1]), Integer.parseInt(Vector[2]), Vector[3]);
-				GB.Usuarios.insertarprodacarrito(Vector[1], Integer.parseInt(Vector[2]),nodo);
-			}
-			
 			//Insertar en Ventas [Facturas] 
-			for(int a = 0 ; a < VVenta.length ; a++)
+			/*for(int a = 0 ; a < VVenta.length ; a++)
 			{
 				String [] Vector = VVenta[a].split(",");
-				Cola_Detalle  Det = new  Cola_Detalle();
-				NodoUsuario Usr = GB.getUsuarios().ObtBuscar(Vector[3]);
-				busqueda Bus = new busqueda();
-				
-				String Obj = Vector[0] +"" + Vector[1] + "" + Integer.parseInt(Vector[2]);
-				
-				GB.getFacturas().insert(Bus, (Object) Obj, (Object)Usr, Det);
+				GB.setFacturas(Vector[0], Vector[1], Vector[2], Vector[3]);
+			}
+			
+			
+			//Insertar en Detalles de [Facturas] 
+			for(int a = 0 ; a < VDetalle.length ; a++)
+			{
+				String [] Vector = VDetalle[a].split(",");
+				//100,2,6515,968360189
+				int cantidad = Integer.valueOf(Vector[1]);
+				int precio = Integer.valueOf(Vector[2]);
+				int producto= Integer.valueOf(Vector[3]);
+				GB.setDetalle(Vector[0], cantidad, precio, producto);
 			}*/
 			
 			Breader.close();

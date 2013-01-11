@@ -7,9 +7,13 @@ public class ServicioEdd
 	public Globales GB = Globales.getInstance();	
 	private static Cifrado C = new Cifrado();
 	
-	public ServicioEdd() {
-		
-		Cargar();
+	public ServicioEdd() 
+	{
+		if(GB.getYaCargado() == 0)
+		{
+			Cargar();
+			GB.SetYaCargado(1);
+		}		
 	}
 	/**
 	 * Metodo que Inicia la sesion de un usario
@@ -30,7 +34,7 @@ public class ServicioEdd
 		
 		GB.CargarDatos();				
 	}	
-	
+		
 	/**
 	 * Registra a un Usuario al Sistema
 	 * @param pLogin
@@ -174,7 +178,7 @@ public class ServicioEdd
 	public String ObtProductos()
 	{
 		String resultado = GB.ObtProductosEnCadena();
-		return resultado;
+		return C.Encriptar(resultado);
 	}
 	
 	public String InsertarProducto(int pCodigo,String pNombre, String pMarca, double pPrecio ,String pUrlImg)

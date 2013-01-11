@@ -13,15 +13,16 @@ public class Cola_Detalle {
      private static Logger log = Logger.getLogger(Cola_Detalle.class); // se intancia un logger de la clase donde esta el metodo.
     Nodo_Detalle cabeza;
     Nodo_Detalle ultimoo;
-    int tamaño;
+    int tamano;
     graphviz gv;
     int iteracion=0;
-    
+    String nodo1 = "";
+    int NoDetalle =0;
     
     public Cola_Detalle (){
         cabeza = null;
         ultimoo=null;
-        tamaño = 0;
+        tamano = 0;
     }// termina constructor
    
 //------------------------Metodo Vacio -----------------------------------
@@ -58,16 +59,20 @@ public class Cola_Detalle {
 
         return exist;
     }
+    public int idDetallle(){
+    	return NoDetalle;
+    }
  
  
 //---------------Metodo Ingresar -------------------------------------------------     
   public void ingresar (int idd, int cantt, int precioo, NodoProducto compras1)   {
       System.out.println("entro en ingresar cola Detalle");
+      NoDetalle = idd;
       Nodo_Detalle nuevo = new Nodo_Detalle( idd, cantt, precioo, compras1);
          if (Vacio()){
              cabeza = nuevo;
              ultimoo = cabeza;
-             tamaño++;
+             tamano++;
               System.out.println("Ingreso Nuevo a Cola Detalle");
               log.info("Ingreso Nuevo a Cola Detalle" +nuevo.id);
          } else {
@@ -75,7 +80,7 @@ public class Cola_Detalle {
             //     if (!existe(product.nombre)){
                 Nodo_Detalle aux = ultimos();
                 aux.ultimo = nuevo;
-                tamaño++;
+                tamano++;
                 System.out.println("ingreso nuevo Detalle en ultima posicion"+nuevo.id);
                 log.info ("ingreso nuevo Detalle en ultima posicion"+nuevo.id);
             }else{
@@ -89,17 +94,14 @@ public class Cola_Detalle {
          }     
   }// termina metodo ingresar cola 
  
-  public Cola_Carrito obtenerCarrito(int id){
-        Nodo_Detalle nodo =  obtenernodo(id);
-        return nodo.obtenercarrito();
-    }
+  
   
   
      
  //--------------------Metodo de imprimir en consola -------------------------     
       
     public void imprimir(){
-        System.out.println(tamaño);
+        System.out.println(tamano);
         Nodo_Detalle aux = cabeza;
         Nodo_Detalle ant = aux;
         while (aux != null){
@@ -158,7 +160,7 @@ public class Cola_Detalle {
      //--------------------Metodos de graficar -------------------------
     
     public String graphLista() {
-        System.out.println("Tamaño de la lista: " + tamaño + "\n");
+        System.out.println("Tamaño de la lista: " + tamano + "\n");
         Nodo_Detalle aux = cabeza;
         Nodo_Detalle aux2 = cabeza;
         String src = "edge[color = blue]\n";
@@ -167,7 +169,7 @@ public class Cola_Detalle {
         //System.out.print("\n\n\n"+src);
         int e = 0;
         //System.out.print("entra while 1");
-        while (e < tamaño) {
+        while (e < tamano) {
 
             src = src + "nodo" + e + "[label = \"|id "+aux.id+"\\ncantidad"+ aux.cantidad +"\\nprecio"+ aux.precio +"  |\" ]\n";
             tip3 = tip3 + "nodo" + e + ";";
@@ -188,7 +190,7 @@ public class Cola_Detalle {
         //System.out.print("\n\n\n"+src);
 
         //System.out.print("entra while 2");
-        while (f1 < tamaño - 1) {
+        while (f1 < tamano - 1) {
             int g = f1;
             int g1 = g - 1;
             int g2 = g + 1;
@@ -241,7 +243,58 @@ public class Cola_Detalle {
         
         return enc;
     }
-    
+    public String subgraphLista() {
+        System.out.println("Tamaño de la lista: " + tamano + "\n");
+        Nodo_Detalle aux = cabeza;
+        Nodo_Detalle aux2 = cabeza;
+        String src = "subgraph A"+var.NoNodo+" {\nnode [fontsize=5,shape = record];\n";
+        String tip2 = "";
+        String tip3 = "";
+        //System.out.print("\n\n\n"+src);
+        int e = 0;
+        //System.out.print("entra while 1");
+        nodo1 = "nodo" +var.NoNodo+ e ;
+        while (e < tamano) {
+
+            src = src + "nodo" +var.NoNodo+ e + "[label = \"cantidad "+aux.cantidad+"\\nproducto"+ aux.compras.ObtNombre() +"  \" ]\n";
+            tip3 = tip3 + "nodo" +var.NoNodo+ e + ";";
+            e++;
+            aux = aux.ultimo;
+        }
+        tip2 = "{" + tip3 + "};";
+        //System.out.print("\n\n\n"+src);
+
+        String tip4 = "";
+        int f = 0;
+        int r = f;
+        int r2 = r + 1;
+        int e4 = e - 1;
+        src = src + "\n" + tip2 + "\n"; 
+        src = src + "nodo" +var.NoNodo+ r + " -> " + "nodo" +var.NoNodo+ r2 + ";\n";
+        int f1 = 1;
+        //System.out.print("\n\n\n"+src);
+
+        //System.out.print("entra while 2");
+        while (f1 < tamano - 1) {
+            int g = f1;
+            int g1 = g - 1;
+            int g2 = g + 1;
+            tip4 = tip4 + "nodo" +var.NoNodo +g + " -> " + "nodo" +var.NoNodo+ g2 + ";\n";
+            f1++;
+
+            aux2 = aux2.ultimo;
+        }
+        int t = e4 - 1;
+
+        src = src + tip4 +  "\n" + "nodo" +var.NoNodo+ e4 +";\n";
+        src = src +"\n}\n\n";
+        var.NoNodo++;
+        //System.out.print("\n\n\n"+src);
+        return src;
+    }
+    public String nodo1(){
+        return nodo1;
+    }
     
     
     
