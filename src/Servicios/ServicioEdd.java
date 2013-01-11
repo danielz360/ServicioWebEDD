@@ -72,11 +72,13 @@ public class ServicioEdd
 	 * @param pFacturacion
 	 * @return 1 si se Agrego Correctamente y 0 si no fue asi
 	 */
-	public String AgregarDireccion(String pNickName,String pDireccion, boolean pEnvio, boolean pFacturacion)
+	public String AgregarDireccion(String pNickName,String pDireccion, String pEnvio, String pFacturacion)
 	{
 		try
-		{
-			GB.getUsuarios().insertardiriFin(pNickName, pDireccion, pEnvio, pFacturacion);
+		{			
+			boolean Envio = (pEnvio.equals("1"))?true:false; 
+			boolean Facturacion = (pFacturacion.equals("1"))?true:false;
+			GB.getUsuarios().insertardiriFin(pNickName, pDireccion, Envio, Facturacion);
 			return C.Encriptar("1");
 		}
 		catch(Exception ex)
@@ -93,12 +95,14 @@ public class ServicioEdd
 	 * @param pCodigoProducto
 	 * @return 1 si se Agrego Correctamente y 0 si no fue asi
 	 */
-	public String AgregarCarrito(String pNickName,int pCantidad, int pCodigoProducto)
+	public String AgregarCarrito(String pNickName,String pCantidad, String pCodigoProducto)
 	{
 		try
 		{
-			NodoProducto Producto = GB.getProductos().ObtBuscar(pCodigoProducto);
-			GB.getUsuarios().insertarprodacarrito(pNickName, pCantidad, Producto);
+			int CodigoProducto = Integer.parseInt(pCodigoProducto);
+			int Cantidad = Integer.parseInt(pCantidad);
+			NodoProducto Producto = GB.getProductos().ObtBuscar(CodigoProducto);
+			GB.getUsuarios().insertarprodacarrito(pNickName, Cantidad, Producto);
 			return C.Encriptar("1");
 		}
 		catch(Exception ex)
@@ -115,12 +119,14 @@ public class ServicioEdd
 	 * @param pCodigoProducto
 	 * @return 1 si se Agrego Correctamente y 0 si no fue asi
 	 */
-	public String AgregarListaPorComprar(String pNickName,int pCantidad, int pCodigoProducto)
+	public String AgregarListaPorComprar(String pNickName,String pCantidad, String pCodigoProducto)
 	{
 		try
 		{
-			NodoProducto Producto = GB.getProductos().ObtBuscar(pCodigoProducto);
-			GB.getUsuarios().InsertarProductoxComprar(pNickName, pCantidad, Producto);
+			int CodigoProducto = Integer.parseInt(pCodigoProducto);
+			int Cantidad = Integer.parseInt(pCantidad);
+			NodoProducto Producto = GB.getProductos().ObtBuscar(CodigoProducto);
+			GB.getUsuarios().InsertarProductoxComprar(pNickName, Cantidad, Producto);
 			return C.Encriptar("1");
 		}
 		catch(Exception ex)
@@ -209,5 +215,11 @@ public class ServicioEdd
 			
 		}
 		return C.Encriptar("0");		
+	}
+	
+	public String ObtGraficaCifrado()
+	{
+		
+		return "";
 	}
 }

@@ -10,7 +10,7 @@ public class NodoUsuario
 	private ListaDireccion Direcciones;
 	private Cola_ProdxComp ProductosxComprar;
     private Cola_Carrito carrito = new Cola_Carrito();
-	
+
 	/**Constructor
 	 * @pNombre Nombre del Usuario
 	 * @pNickName NickName del Usuario

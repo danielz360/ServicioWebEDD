@@ -1,5 +1,11 @@
 package edd.Estructuras;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import javax.swing.JOptionPane;
+
 import edd.Variables.Globales;
 
 public class Cifrado 
@@ -32,10 +38,17 @@ public class Cifrado
 		MatrizqOrtogonalInversa[1][0] = -1;
 		MatrizqOrtogonalInversa[1][1] = 2;
 		this.LlenarCodigos();
+		
+		Grafico += "digraph G\n";
+		Grafico += "{\n";
+		//Grafico += "rankdir = LR;\n";		
 	}
 
 	public String Encriptar(String pDato)
 	{
+		this.Grafico += "subgraph cluster_0{\n";
+		this.Grafico += "node [shape=record];label=\" Cifrado \";\n";
+		
 		String Dato = pDato;
 		String Resultado = "";		
 		int divisor = DivisorDato;
@@ -78,16 +91,28 @@ public class Cifrado
 			int CodCa1 = ObtCodigo(Parejas[a].charAt(0));
 			int CodCa2 = ObtCodigo(Parejas[a].charAt(1));
 			
-			Retornar += "" + ( (CodCa1*MatrizqOrtogonal[0][0]) + (CodCa2*MatrizqOrtogonal[0][1])) + " ";
-			Retornar += "" + ( (CodCa1*MatrizqOrtogonal[1][0]) + (CodCa2*MatrizqOrtogonal[1][1])) + " ";
+			this.Grafico += "UnoA1_" + a + " -> UnoB1_" + a + " ";			
+			this.Grafico += "UnoB1_" + a + " -> UnoC1_" + a + " ";
+			
+			int R1 = ( (CodCa1*MatrizqOrtogonal[0][0]) + (CodCa2*MatrizqOrtogonal[0][1]));
+			int R2 = ( (CodCa1*MatrizqOrtogonal[1][0]) + (CodCa2*MatrizqOrtogonal[1][1]));
+			
+			this.Grafico += "UnoA1_" + a +" [label=\"{[" + MatrizqOrtogonal[0][0] + " , " + MatrizqOrtogonal[0][1] + "]|[" + MatrizqOrtogonal[1][0] + " , " + MatrizqOrtogonal[1][1] + "]}\"];";
+			this.Grafico += "UnoB1_" + a +" [label=\"{" + CodCa1 + "|" + CodCa2 + "}\"];";									
+			this.Grafico += "UnoC1_" + a +" [label=\"{" + R1 + "|" + R2 + "}\"];";
+			Retornar += "" + R1 + " ";
+			Retornar += "" + R2 + " ";
 		}
 		
 		Retornar = Retornar.trim();
-		return Retornar;
+		this.Grafico += "}\n";
+		return Retornar;		
 	}
 	
 	public String Desencriptar(String pDato)
 	{
+		this.Grafico += "subgraph cluster_1{\n";
+		this.Grafico += "node [shape=record];label=\" Descifrado \";\n";
 		String Dato = pDato;
 		
 		String [] Valores = Dato.split(" ");		
@@ -98,14 +123,26 @@ public class Cifrado
 		{
 			int Cod1 = Integer.parseInt(Valores[a]);
 			int Cod2 = Integer.parseInt(Valores[a + 1]);
-			int CodRe1 = (Cod1 * this.MatrizqOrtogonalInversa[0][0]) + (Cod2 * this.MatrizqOrtogonalInversa[0][1]);
-			int CodRe2 = (Cod1 * this.MatrizqOrtogonalInversa[1][0]) + (Cod2 * this.MatrizqOrtogonalInversa[1][1]);
 			
+			this.Grafico += "UnoA_" + a + " -> UnoB_" + a + " ";			
+			this.Grafico += "UnoB_" + a + " -> UnoC_" + a + " ";			
+			
+			int R1 = (Cod1 * this.MatrizqOrtogonalInversa[0][0]) + (Cod2 * this.MatrizqOrtogonalInversa[0][1]);
+			int R2 = (Cod1 * this.MatrizqOrtogonalInversa[1][0]) + (Cod2 * this.MatrizqOrtogonalInversa[1][1]);
+			
+			this.Grafico += "UnoA_" + a +" [label=\"{[" + MatrizqOrtogonalInversa[0][0] + " , " + MatrizqOrtogonalInversa[0][1] + "]|[" + MatrizqOrtogonalInversa[1][0] + " , " + MatrizqOrtogonalInversa[1][1] + "]}\"];";
+			this.Grafico += "UnoB_" + a +" [label=\"{" + Cod1 + "|" + Cod2 + "}\"];";
+			this.Grafico += "UnoC_" + a +" [label=\"{" + R1 + "|" + R2 + "}\"];";
+			
+			int CodRe1 = R1;
+			int CodRe2 = R2;
+						
 			Retornar += this.ObtCaracter(CodRe1) + "" + this.ObtCaracter(CodRe2);
 			a++;
 		}
 		
 		Retornar = Retornar.trim();
+		this.Grafico += "}\n";
 		return Retornar;
 	}
 	
@@ -131,6 +168,11 @@ public class Cifrado
 			}
 		}
 		return "";
+	}
+	
+	private String ObtGrafica()
+	{
+		return this.Grafico;
 	}
 	
 	private void LlenarCodigos()
@@ -349,7 +391,7 @@ public class Cifrado
 		TablaCodigos[70][1] = "-";
 	}
 	
-	/**public static void main(String[] args) 
+	/*public static void main(String[] args) throws IOException 
 	{
 		Cifrado c = new Cifrado();
 		String Original = "Quedamos en el Altozano a las----adsfasdfl ;lkjha;ldfadfakdsfhakdsfjhalkdsfh Nueve Exelente MIJO";
@@ -362,7 +404,43 @@ public class Cifrado
 		{
 			DesEncriptado = DesEncriptado.substring(0, DesEncriptado.length()-1);
 		}
-		System.out.println("des - " + DesEncriptado);		
+		String Ds = c.ObtGrafica();
+		BufferedWriter Bwriter = null;
+		String sFicheroWriter = "GraficaContactos.dot";
+		try
+		{			    		   
+		    Bwriter = new BufferedWriter(new FileWriter(sFicheroWriter));
+		    Bwriter.write(Ds);
+		}
+		catch(Exception ex)
+		{
+			
+		}
+		finally
+		{
+			// Nuevamente aprovechamos el finally para 
+			// asegurarnos que se cierra el fichero.
+			if (Bwriter != null)
+			{
+				Bwriter.close();
+				
+		        ProcessBuilder pbuilder;
+			    
+				/*
+				 * Realiza la construccion del comando    
+				 * en la linea de comandos esto es: 
+				 * dot -Tpng -o archivo.png archivo.dot
+				 */
+		/*		pbuilder = new ProcessBuilder( "dot", "-Tpng", "-o","Graficooo.png" , sFicheroWriter );
+				pbuilder.redirectErrorStream( true );
+				//Ejecuta el proceso
+				pbuilder.start();
+				JOptionPane.showMessageDialog(null, "Grafica Generada Exitosamente");
+			}	
+		}
+		System.out.println("des - " + DesEncriptado);	
+		System.out.println("-------------" );
+		System.out.println(Ds);
 	}*/
 	
 }

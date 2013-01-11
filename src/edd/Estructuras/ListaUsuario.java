@@ -2,6 +2,11 @@ package edd.Estructuras;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
+
+import javax.swing.JOptionPane;
+
+import edd.Variables.Globales;
 
 
 
@@ -9,6 +14,7 @@ public class ListaUsuario
 {
 	private NodoUsuario Cabeza;
 	private NodoUsuario Fin;
+	private String Grafico = "";
 	
 	/**Constructor*/
 	public ListaUsuario() 
@@ -158,81 +164,72 @@ public class ListaUsuario
 	 */
 	public void Graficar()
 	{
-		String Complemento = "";
-		
-		String sFicheroWriter = "GraficaLista.dot";    
-	    BufferedWriter Bwriter = null;
-		
+				
 	    try 
-		{		         
-	    	Bwriter = new BufferedWriter(new FileWriter(sFicheroWriter));			    
-			
-	        Bwriter.write("digraph G\n");
-	        Bwriter.write("{\n");
-	        Bwriter.write("node [shape=record];label=\" Lista de Usuarios \";");
+		{		         			    			
+	    	this.Grafico += "digraph G\n";
+	    	this.Grafico += "{\n";
+	    	Grafico += "rankdir = LR;\n";	
+	    	this.Grafico += "node [shape=record];label=\" Lista de Usuarios \";";
 	        
 	        NodoUsuario iteradorUsr = Cabeza;
 	        
- 	    	while ( iteradorUsr != null ) 
+	        int contador = 0;
+	    	int contadorD = 0;
+	    	int contadorP = 0;
+ 	    	
+	    	while ( iteradorUsr != null ) 
 	        {
- 	    		NodoDireccion iteradorDir = iteradorUsr.ObtDirecciones().ObtCabeza();
+ 	    		this.Grafico += "UnoU_" + contador + " -> UnoD_" + contadorD + " ";
+ 	    		this.Grafico += "UnoU_" + contador + " -> UnoP_" + contadorP + " ";
+ 	    		this.Grafico += "UnoU_" + contador +" [label=\"{" + iteradorUsr.ObtNickName() + "}\"];";
+ 	    		
+ 	    		if(contador >0)
+ 	    		{
+ 	    			this.Grafico += "UnoU_" + (contador - 1) + " -> UnoU_" + contador + " ";
+ 	    			this.Grafico += "UnoU_" + contador + " -> UnoU_" + (contador - 1) + " ";
+ 	    		}
+ 	    		
+ 	    		NodoDireccion iteradorDir = iteradorUsr.ObtDirecciones().ObtCabeza(); 	    		 	   
+ 	    		if(iteradorDir !=  null)
+ 	    		{
+ 	    			this.Grafico += "UnoD_" + contadorD +" [label=\"{" + iteradorDir.ObtDireccion() + "}\"];";
+ 	    		} 	    		
  	    		
  	 	    	while ( iteradorDir != null ) 
- 		        {
- 	 	    		Bwriter.write("Uno_0 -> Uno_1 ;\n");
- 	 	    		Bwriter.write("Uno_1 -> Uno_0 ;\n");
- 	 	    		Bwriter.write("Uno_0 [label=\"{Caja_1|1 Turnos|Libre}\"];\n"); 	 	    		
- 	 	    		Bwriter.write("Uno_1 [label=\"{Caja_2|2 Turnos|Libre}\"];\n"); 	 	    		
+ 		        { 	
+ 	 	    		contadorD++;
+ 	 	    		this.Grafico += "UnoD_" + (contadorD - 1)  + " -> UnoD_" + contadorD + " ";
+ 	 	    		this.Grafico += "UnoD_" + contadorD +" [label=\"{" + iteradorDir.ObtDireccion() + "}\"];";
+ 	 	    		iteradorDir = iteradorDir.ObtNodoSiguiente(); 	 	    		
  		        }
  	 	    	
- 	 	    	//NodoProductoxComprar iteradorPrxC = iteradorUsr.ObtProductosxComprar().ObtCabeza();
- 	    		
- 	 	    	/*while ( iteradorPrxC != null ) 
- 		        {
- 	 	    		
- 		        }*/
+ 	 	    	
+ 	 	    	Nodo_ColaProdxComp iteradorPrxC = iteradorUsr.ObtProductosxComprar().cabeza;
+ 	 	    	if(iteradorPrxC !=  null)
+ 	 	    	{this.Grafico += "UnoP_" + contadorP +" [label=\"{" + iteradorPrxC.ObtProducto().ObtNombre() + "}\"];";}
+ 	 	    	
 
-	        }
-	    	
-	        Bwriter.write("}\n");	     		    
+ 	 	    	while ( iteradorPrxC != null ) 
+ 		        {
+ 	 	    		contadorP++;
+ 	 	    		this.Grafico += "UnoP_" + (contadorP - 1)  + " -> UnoP_" + contadorP + " ";
+ 	 	    		this.Grafico += "UnoP_" + contadorP +" [label=\"{" + iteradorPrxC.ObtProducto().ObtNombre() + "}\"];";
+ 	 	    		iteradorPrxC = iteradorPrxC.ultimo; 	 	    		
+ 		        }
+ 	 	    	iteradorUsr = iteradorUsr.ObtNodoSiguiente();
+ 	    		contadorP++;
+ 	    		contadorD++;
+ 	 	    	contador++;
+	        }	    		     		    
 		}
 	    catch (Exception e) 
 		{
 			// TODO Auto-generated catch block
 	    	//log.error("Error en " + e.getMessage());
 			System.out.println( "Error en " + e.getMessage());
-		}		
-		finally 
-		{
-			try 
-			{
-				// Nuevamente aprovechamos el finally para 
-				// asegurarnos que se cierra el fichero.
-				if (Bwriter != null)
-				{
-					Bwriter.close();
-					
-			        ProcessBuilder pbuilder;
-				    
-					/*
-					 * Realiza la construccion del comando    
-					 * en la linea de comandos esto es: 
-					 * dot -Tpng -o archivo.png archivo.dot
-					 */
-					pbuilder = new ProcessBuilder( "dot", "-Tpng", "-o","GraficaLista.png" , sFicheroWriter );
-					pbuilder.redirectErrorStream( true );
-					//Ejecuta el proceso
-					pbuilder.start();
-					//log.info("SERVIDOR->Grafica Generada Exitosamente");
-					//System.out.println( "Grafica Generada Exitosamente");
-				}
-			} 
-			catch (Exception e) 
-			{
-				//log.error("Error en " + e.getMessage());
-				System.out.println( "Error en " + e.getMessage());
-			}
-		}
+		}	
+	    Grafico += "}";
 	}	
 	
     public NodoUsuario ObtCabeza()
@@ -276,4 +273,53 @@ public class ListaUsuario
         NodoUsuario nodo =  ObtBuscar(pNickName);
         return nodo.obtenercarrito();
     }
+    
+	private String ObtGrafica()
+	{
+		return this.Grafico;
+	}
+	
+	public static void main(String[] args) throws IOException 
+	{
+		Globales G = Globales.getInstance();
+		G.CargarDatos();
+		
+		G.getUsuarios().Graficar();
+		String Ds = G.getUsuarios().ObtGrafica();
+		BufferedWriter Bwriter = null;
+		String sFicheroWriter = "Graficaaaa.dot";
+		try
+		{			    		   
+		    Bwriter = new BufferedWriter(new FileWriter(sFicheroWriter));
+		    Bwriter.write(Ds);
+		}
+		catch(Exception ex)
+		{
+			
+		}
+		finally
+		{
+			// Nuevamente aprovechamos el finally para 
+			// asegurarnos que se cierra el fichero.
+			if (Bwriter != null)
+			{
+				Bwriter.close();
+				
+		        ProcessBuilder pbuilder;
+			    
+				/*
+				 * Realiza la construccion del comando    
+				 * en la linea de comandos esto es: 
+				 * dot -Tpng -o archivo.png archivo.dot
+				 */
+				pbuilder = new ProcessBuilder( "dot", "-Tpng", "-o","Grafic11ooo.png" , sFicheroWriter );
+				pbuilder.redirectErrorStream( true );
+				//Ejecuta el proceso
+				pbuilder.start();
+				//JOptionPane.showMessageDialog(null, "Grafica Generada Exitosamente");
+			}	
+		}
+		
+		System.out.println(Ds);
+	}
 }

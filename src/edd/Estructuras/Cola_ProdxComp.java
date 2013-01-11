@@ -12,8 +12,8 @@ import edd.Variables.var;
 
 public class Cola_ProdxComp {
     private static Logger log = Logger.getLogger(Cola_ProdxComp.class); // se intancia un logger de la clase donde esta el metodo.
-    Nodo_ColaProdxComp cabeza;
-    Nodo_ColaProdxComp ultimoo;
+    Nodo_ColaProdxComp cabeza = null;
+    Nodo_ColaProdxComp ultimoo = null;
     int tamaño;
     graphviz gv;
     int iteracion=0;
